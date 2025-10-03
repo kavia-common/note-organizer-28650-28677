@@ -1,0 +1,296 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, viewport-fit=cover"
+    />
+    <title>Notes – Ocean Professional</title>
+    <meta
+      name="description"
+      content="A modern notes app UI with categories, list, and editor."
+    />
+    <!-- Inter font fallback to system UI -->
+    <link
+      rel="preconnect"
+      href="https://fonts.googleapis.com"
+      crossorigin
+    />
+    <link
+      rel="preconnect"
+      href="https://fonts.gstatic.com"
+      crossorigin
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to main content</a>
+
+    <header class="app-header" role="banner">
+      <div class="header-inner">
+        <button
+          class="sidebar-toggle"
+          aria-label="Toggle sidebar"
+          aria-expanded="true"
+          aria-controls="sidebar"
+        >
+          <!-- Hamburger icon -->
+          <svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true">
+            <path
+              d="M4 6h16M4 12h16M4 18h16"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+            />
+          </svg>
+        </button>
+
+        <div class="brand" aria-label="Application">
+          <div class="logo" aria-hidden="true">
+            <!-- Simple ocean wave logo -->
+            <svg viewBox="0 0 32 32" width="28" height="28" aria-hidden="true">
+              <defs>
+                <linearGradient id="g" x1="0" x2="1">
+                  <stop offset="0" stop-color="#60A5FA" stop-opacity="0.2" />
+                  <stop offset="1" stop-color="#F3F4F6" stop-opacity="1" />
+                </linearGradient>
+              </defs>
+              <rect width="32" height="32" rx="8" fill="url(#g)"></rect>
+              <path
+                d="M4 20c4-3 8-3 12 0s8 3 12 0"
+                fill="none"
+                stroke="#2563EB"
+                stroke-width="2"
+                stroke-linecap="round"
+              />
+            </svg>
+          </div>
+          <h1 class="title">Notes</h1>
+        </div>
+
+        <div class="header-actions">
+          <label class="search-wrap" aria-label="Search notes">
+            <svg
+              class="icon"
+              width="18"
+              height="18"
+              viewBox="0 0 24 24"
+              aria-hidden="true"
+            >
+              <path
+                d="M21 21l-4.3-4.3m1.3-5.2a6.5 6.5 0 1 1-13 0 6.5 6.5 0 0 1 13 0Z"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+              />
+            </svg>
+            <input
+              id="search"
+              type="search"
+              placeholder="Search notes…"
+              aria-label="Search notes"
+              autocomplete="off"
+            />
+          </label>
+
+          <button id="newNoteBtn" class="btn btn-accent" aria-label="Create new note">
+            <svg
+              class="icon"
+              width="18"
+              height="18"
+              viewBox="0 0 24 24"
+              aria-hidden="true"
+            >
+              <path
+                d="M12 5v14M5 12h14"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+              />
+            </svg>
+            <span class="btn-text">New Note</span>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <div class="app-shell">
+      <!-- Sidebar -->
+      <aside id="sidebar" class="sidebar" aria-label="Categories and tags">
+        <div class="sidebar-inner">
+          <div class="sidebar-section">
+            <h2 class="sidebar-heading">Categories</h2>
+            <nav aria-label="Categories">
+              <ul id="categoryList" class="menu">
+                <li>
+                  <button class="menu-item active" data-category="all">
+                    <span class="dot dot-all" aria-hidden="true"></span>
+                    All Notes
+                  </button>
+                </li>
+                <li>
+                  <button class="menu-item" data-category="work">
+                    <span class="dot dot-work" aria-hidden="true"></span>
+                    Work
+                  </button>
+                </li>
+                <li>
+                  <button class="menu-item" data-category="personal">
+                    <span class="dot dot-personal" aria-hidden="true"></span>
+                    Personal
+                  </button>
+                </li>
+                <li>
+                  <button class="menu-item" data-category="ideas">
+                    <span class="dot dot-ideas" aria-hidden="true"></span>
+                    Ideas
+                  </button>
+                </li>
+                <li>
+                  <button class="menu-item" data-category="archive">
+                    <span class="dot dot-archive" aria-hidden="true"></span>
+                    Archive
+                  </button>
+                </li>
+              </ul>
+            </nav>
+          </div>
+
+          <div class="sidebar-section">
+            <h2 class="sidebar-heading">Tags</h2>
+            <div id="tagCloud" class="tag-cloud" role="list">
+              <button class="tag" role="listitem" data-tag="design">#design</button>
+              <button class="tag" role="listitem" data-tag="reading">#reading</button>
+              <button class="tag" role="listitem" data-tag="todo">#todo</button>
+              <button class="tag" role="listitem" data-tag="learning">#learning</button>
+            </div>
+          </div>
+        </div>
+      </aside>
+
+      <!-- Main content -->
+      <main id="main" class="main" role="main">
+        <section class="content">
+          <!-- Notes List -->
+          <div class="panel panel-list" aria-label="Notes list">
+            <header class="panel-header">
+              <h2 class="panel-title">Notes</h2>
+              <span id="notesCount" class="muted">0 items</span>
+            </header>
+
+            <ul id="notesList" class="notes-list" role="list" aria-live="polite">
+              <!-- Note items will be rendered here -->
+            </ul>
+          </div>
+
+          <!-- Editor -->
+          <div class="panel panel-editor" aria-label="Note editor">
+            <header class="editor-header">
+              <input
+                id="noteTitle"
+                class="note-title"
+                type="text"
+                placeholder="Note title"
+                aria-label="Note title"
+              />
+              <div class="editor-actions">
+                <button id="deleteNoteBtn" class="btn btn-ghost" aria-label="Delete note">
+                  <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true">
+                    <path
+                      d="M3 6h18M8 6V4h8v2M6 6l1 14h10l1-14"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                  </svg>
+                  <span class="sr-only">Delete</span>
+                </button>
+              </div>
+            </header>
+
+            <div class="toolbar" role="toolbar" aria-label="Editor toolbar">
+              <button class="tool-btn" data-cmd="bold" aria-label="Bold">
+                <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true">
+                  <path
+                    d="M7 4h6a3 3 0 0 1 0 6H7V4Zm0 6h7a3 3 0 0 1 0 6H7v-6Z"
+                    fill="currentColor"
+                  />
+                </svg>
+              </button>
+              <button class="tool-btn" data-cmd="italic" aria-label="Italic">
+                <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true">
+                  <path
+                    d="M10 4h8M6 20h8M14 4l-4 16"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                  />
+                </svg>
+              </button>
+              <button class="tool-btn" data-cmd="underline" aria-label="Underline">
+                <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true">
+                  <path
+                    d="M6 4v7a6 6 0 1 0 12 0V4M4 20h16"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                </svg>
+              </button>
+              <span class="tool-sep" aria-hidden="true"></span>
+              <button class="tool-btn" data-cmd="insertUnorderedList" aria-label="Bulleted list">
+                <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true">
+                  <path
+                    d="M9 6h12M9 12h12M9 18h12M4 6h.01M4 12h.01M4 18h.01"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                  />
+                </svg>
+              </button>
+            </div>
+
+            <div
+              id="noteContent"
+              class="note-content"
+              contenteditable="true"
+              role="textbox"
+              aria-multiline="true"
+              aria-label="Note content"
+              spellcheck="true"
+            ></div>
+
+            <footer class="editor-footer">
+              <div class="muted" id="timestamp" aria-live="polite"></div>
+              <div class="chips" id="editorTags"></div>
+            </footer>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <!-- Floating Add for very small screens -->
+    <button id="fabNewNote" class="fab" aria-label="Create new note">
+      <svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true">
+        <path
+          d="M12 5v14M5 12h14"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+        />
+      </svg>
+    </button>
+
+    <script src="./script.js"></script>
+  </body>
+</html>
